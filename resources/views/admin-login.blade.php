@@ -9,7 +9,7 @@
 <body class="bg-gradient-to-r from-green-300 to-blue-300 flex items-center justify-center min-h-screen">
     <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm">
         <h2 class="text-2xl text-center font-bold text-gray-600 mb-6">Admin Login</h2>
-        <form action="/admin" method="post" class="space-y-4">
+        <form action="/admin-login" method="post" class="space-y-4">
             @csrf
             @error('user')
             <div class="text-red-500">{{$message}}</div>
