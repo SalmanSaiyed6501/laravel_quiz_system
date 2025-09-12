@@ -13,3 +13,6 @@ Route::get('logout',[AdminController::class,'logout']);
 Route::post('addCategory',[AdminController::class,'addCategory']);
 Route::get('category/delete/{id}',[AdminController::class,'deleteCategory']);
 
+Route::get('addQuiz',[AdminController::class,'quiz']);
+Route::post('addQuiz',[AdminController::class,'addQuiz']);
+Route::get('quitQue',[AdminController::class,'quitQue']);

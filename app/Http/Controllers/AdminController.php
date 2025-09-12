@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\Models\admin;
 use App\Models\category;
+use App\Models\quiz;
 
 class AdminController extends Controller
 {
@@ -83,10 +84,44 @@ class AdminController extends Controller
 
     public function deleteCategory($id){
         $isDeleted = category::find($id)->delete();
-
         if ($isDeleted) {
             Session::flash('category',"Category Deleted Succesfully !");
             return redirect()->back();
         }
+    }
+
+    public function quiz(){
+        $admin = Session::get('admin');
+        if ($admin) {
+            $categories = category::get();
+            return view('add-quiz',["name"=>$admin, "categories"=>$categories]);
+        }else{
+            return redirect('admin-login');
+        }
+    }
+
+    public function addQuiz(Request $request){
+        $validation = $request->validate([
+            'name'=>'required | min:3',
+            'category'=>'required',
+        ],[
+            'name.required'=> 'Enter Quiz Name !',
+            'category.required'=> 'Select Category !'
+        ]);
+
+        $quiz = new quiz;
+        $quiz->name = $request->name;
+        $quiz->categoryId = $request->category;
+        $quiz->creator = Session::get('admin');
+        
+        if ($quiz->save()) {
+            Session::put('quizDetails',$request->name);
+            return redirect()->back();
+        }
+    }
+
+    public function quitQue(){
+         Session::forget('quizDetails');
+         return redirect()->back();
     }
 }
