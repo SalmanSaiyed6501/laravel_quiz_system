@@ -38,29 +38,34 @@
         </div>
         @else
         <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md mb-5">
+            @if(Session('quiz'))
+            <div class="bg-green-500 text-white p-2">{{Session('quiz')}}</div>
+            @endif
+            <span class="font-bold text-green-600">{{Session('quizDetails.name')}}</span><br>
+            <span class="font-bold text-green-600">Total Questions : {{Session('count_mcq')}}</span>
             <h2 class="text-2xl text-center font-bold text-gray-600 mb-6">Add MCQs</h2>
-            <form action="/addQuiz" method="post" class="space-y-4">
+            <form action="/addMcqs" method="post" class="space-y-4">
                 @csrf
-                <label for="">Question : <span class="font-bold text-green-600">{{Session('quizDetails')}}</span></label>
-                <textarea name="question" rows="2" placeholder="Add New Question" class="w-full px-4 py-2 border border-gray-300 rounded-xl"></textarea>
+                <label for="">Question :</label>
+                <textarea name="question" rows="2" placeholder="Add New Question" class="w-full px-4 py-2 border border-gray-300 rounded-xl" required></textarea>
                 <label for="">Option A :</label>
-                <input type="text" name="option1" placeholder="Enter First Option" class="w-full px-4 py-2 border border-gray-300 rounded-xl">
+                <input type="text" name="a" placeholder="Enter First Option" class="w-full px-4 py-2 border border-gray-300 rounded-xl" required>
                 <label for="">Option B :</label>
-                <input type="text" name="option2" placeholder="Enter Second Option" class="w-full px-4 py-2 border border-gray-300 rounded-xl">
+                <input type="text" name="b" placeholder="Enter Second Option" class="w-full px-4 py-2 border border-gray-300 rounded-xl" required>
                 <label for="">Option C :</label>
-                <input type="text" name="option3" placeholder="Enter Third Option" class="w-full px-4 py-2 border border-gray-300 rounded-xl">
+                <input type="text" name="c" placeholder="Enter Third Option" class="w-full px-4 py-2 border border-gray-300 rounded-xl" required>
                 <label for="">Option D :</label>
-                <input type="text" name="option4" placeholder="Enter Forth Option" class="w-full px-4 py-2 border border-gray-300 rounded-xl">
-                 <select name="category" class="w-full px-4 py-2 border border-gray-300 rounded-xl">
+                <input type="text" name="d" placeholder="Enter Forth Option" class="w-full px-4 py-2 border border-gray-300 rounded-xl" required>
+                 <select name="correct_ans" class="w-full px-4 py-2 border border-gray-300 rounded-xl" required>
                     <option value="">--Right Answer--</option>
-                    <option value="A">Option A</option>
-                    <option value="B">Option B</option>
-                    <option value="C">Option C</option>
-                    <option value="D">Option D</option>
+                    <option value="a">Option A</option>
+                    <option value="b">Option B</option>
+                    <option value="c">Option C</option>
+                    <option value="d">Option D</option>
                 </select>
                 <button type="submit" class="w-full bg-blue-500 rounded-xl text-white px-4 py-2 cursor-pointer">+ Add Question</button>
                 <div class="text-center">
-                    <a href="/quitQue" class="bg-red-500 rounded-xl text-white px-34 py-2 cursor-pointer">Add More Quiz</a>
+                    <a href="/quitQue" class="bg-red-500 rounded-xl text-white px-34 py-2 cursor-pointer">Add & Submit</a>
                 </div>
             </form>
         </div>

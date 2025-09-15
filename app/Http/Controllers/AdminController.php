@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\admin;
 use App\Models\category;
 use App\Models\quiz;
+use App\Models\mcq;
 
 class AdminController extends Controller
 {
@@ -115,13 +116,40 @@ class AdminController extends Controller
         $quiz->creator = Session::get('admin');
         
         if ($quiz->save()) {
-            Session::put('quizDetails',$request->name);
+            $total_mcq = mcq::where('quiz_id', $quiz->id)->get();
+            $count_mcq = count($total_mcq);
+            Session::put('quizDetails',$request->all());
+            Session::put('count_mcq',$count_mcq);
             return redirect()->back();
         }
     }
 
     public function quitQue(){
          Session::forget('quizDetails');
+         Session::forget('count_mcq');
          return redirect()->back();
+    }
+
+    public function addMcqs(Request $request){
+        $quiz = quiz::where('name', Session::get('quizDetails.name'))->first();
+
+        $mcq = new mcq;
+        $mcq->question = $request->question;
+        $mcq->a = $request->a;
+        $mcq->b = $request->b;
+        $mcq->c = $request->c;
+        $mcq->d = $request->d;
+        $mcq->correct_ans = $request->correct_ans;
+        $mcq->category_id = Session::get('quizDetails.category');
+        $mcq->quiz_id = $quiz->id;
+        $mcq->admin_id = Session::get('admin');
+
+        if ($mcq->save()) {
+            Session::flash('quiz',"Quiz Added Successfully !");
+            $total_mcq = mcq::where('quiz_id', $quiz->id)->get();
+            $count_mcq = count($total_mcq);
+            return redirect()->back()->with(["count_mcq"=>$count_mcq]);
+        }
+
     }
 }
