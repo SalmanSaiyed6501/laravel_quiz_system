@@ -42,7 +42,11 @@
             <div class="bg-green-500 text-white p-2">{{Session('quiz')}}</div>
             @endif
             <span class="font-bold text-green-600">{{Session('quizDetails.name')}}</span><br>
-            <span class="font-bold text-green-600">Total Questions : {{Session('count_mcq')}}</span>
+            <span class="font-bold text-green-600">Total Questions : {{Session('count_mcq')}}
+                @if(Session('count_mcq') > 0)
+                 <span><a href="#" class="font-bold text-yellow-600">Show Questions</a></span>
+                @endif
+            </span>
             <h2 class="text-2xl text-center font-bold text-gray-600 mb-6">Add MCQs</h2>
             <form action="/addMcqs" method="post" class="space-y-4">
                 @csrf
